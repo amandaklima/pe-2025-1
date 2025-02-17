@@ -11,7 +11,11 @@ int main() {
   printf("Digite um valor real: ");
   scanf("%lf", &n2);
 
+  printf("Digite uma letra: ");
+  scanf("%c", &letra1); // esse scanf irá ler o ENTER da digitação anterior
+  scanf("%c", &letra1);
+
   printf("n1 = %d e n2 = %.2f\n", n1, n2);
-  printf("letra1 = %c e letra2 = %c\n", letra1, letra2);
+  printf("letra1 = '%c' e letra2 = '%c'\n", letra1, letra2);
   return 0;
 }
