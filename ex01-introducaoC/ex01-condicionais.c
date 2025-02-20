@@ -13,6 +13,5 @@ int main() {
     printf("Voce digitou um numero negativo\n");
   }
   
-
   return 0;
 }
