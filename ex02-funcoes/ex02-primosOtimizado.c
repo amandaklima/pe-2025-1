@@ -46,7 +46,7 @@ int ehPrimoOtimizada(int num) {
 int main() {
   int qtdPrimos = 0;
   printf("Listagem dos numeros primos entre 1 e %d\n", MAX_NUM);
-  for (int num = 9500000; num <= MAX_NUM; num += 1) {
+  for (int num = 1; num <= MAX_NUM; num += 1) {
     if (ehPrimoOtimizada(num)) {
       qtdPrimos += 1;
       printf("%d ", num);
