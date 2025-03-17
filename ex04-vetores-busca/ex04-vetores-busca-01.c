@@ -4,9 +4,20 @@
 
 const int QTD = 100;
 
+// inserir o valor x de forma ordenada
+// pos tem o índice da próxima posição livre do vetor
+void inserirOrdenado(int v[QTD], int x, int pos) {
+  while (pos > 0 && x < v[pos - 1]) {
+    v[pos] = v[pos - 1];
+    pos -= 1;
+  }
+  v[pos] = x;
+}
+
 void preencherVetorAleatorio(int v[QTD]) {
   for (int i = 0; i < QTD; i += 1) {
-    v[i] = rand() % 1000 + 1;
+    // v[i] = rand() % 1000 + 1;
+    inserirOrdenado(v, rand() % 1000 + 1, i);
   }
 }
 
