@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-const int TAM = 5;
+const int TAM = 10;
 
 int inserirVetor(int v[], int n);
 int imprimirVetor(int v[], int n);
