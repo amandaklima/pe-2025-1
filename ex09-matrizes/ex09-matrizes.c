@@ -9,10 +9,11 @@ void multiplicarMatrizes(
 );
 void preencherMatriz(int m[][ORDEM], int qtdLinhas, int qtdColunas);
 void imprimirMatriz(int m[][ORDEM], int qtdLinhas, int qtdColunas);
+void zerarAbaixoDiagPrincipal(int m[][ORDEM], int ordem);
 
 int main() {
   int matriz1[ORDEM][ORDEM], matriz2[ORDEM][ORDEM], matriz3[ORDEM][ORDEM];
-  int qtdLinhas1 = 5, qtdColunas1 = 7, qtdLinhas2 = 7, qtdColunas2 = 8;
+  int qtdLinhas1 = 7, qtdColunas1 = 7, qtdLinhas2 = 7, qtdColunas2 = 8;
   srand(7);
   preencherMatriz(matriz1, qtdLinhas1, qtdColunas1);
   preencherMatriz(matriz2, qtdLinhas2, qtdColunas2);
@@ -27,6 +28,11 @@ int main() {
   );
   printf("MATRIZ 3\n");
   imprimirMatriz(matriz3, qtdLinhas1, qtdColunas2);
+  printf("\n\nMatriz Original");
+  imprimirMatriz(matriz1, qtdLinhas1, qtdColunas1);
+  zerarAbaixoDiagPrincipal(matriz1, qtdLinhas1);
+  printf("\nMatriz Zerada Abaixo Diagonal Principal\n");
+  imprimirMatriz(matriz1, qtdLinhas1, qtdColunas1);
   return 0;
 }
 
@@ -62,6 +68,24 @@ void multiplicarMatrizes(
       matMult[i][j] = 0;
       for (int k = 0; k < qtdColunas1; k += 1) {
         matMult[i][j] += m1[i][k] * m2[k][j];
+      }
+    }
+  }
+}
+
+void zerarAbaixoDiagPrincipal(int m[][ORDEM], int ordem) {
+  for (int i = 1; i < ordem; i += 1) {
+    for (int j = 0; j < i; j += 1) {
+      m[i][j] = 0;
+    }
+  }
+}
+
+void zerarAbaixoDiagPrincipal2(int m[][ORDEM], int ordem) {
+  for (int i = 0; i < ordem; i += 1) {
+    for (int j = 0; j < ordem; j += 1) {
+      if (j < i) {
+        m[i][j] = 0;
       }
     }
   }
