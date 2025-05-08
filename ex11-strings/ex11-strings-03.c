@@ -4,25 +4,26 @@
 const int TAM = 100;
 
 void lerStr(char *str, int count);
-void myStrCpy(char *dest, char *orig);
-void imprimirCodigoAscii(char *str);
-void substituir(char *str, char antigo, char novo);
+int palindroma(char *str);
+void removerEspacos(char *str);
 
-int main()
-{
-  char nome[TAM];
-  printf("Digite o seu nome: ");
+int main() {
+  char frase[TAM];
+  printf("Digite uma frase: ");
 
-  lerStr(nome, TAM);
+  lerStr(frase, TAM);
 
-  printf("O nome digitado foi \"%s\"\n", nome);
+  printf("A frase digitada foi \"%s\" ", frase);
 
-  // nome = "Maria Jose Santos"; // ERRADO!!!!! Precisa usar strcpy
-  strcpy(nome, "Maria Jose Santos");
-  substituir(nome, 'a', 'e');
-  printf("O nome foi alterado para \"%s\"\n", nome);
+  removerEspacos(frase);
 
-  imprimirCodigoAscii(nome);
+  if (palindroma(frase)) {
+    printf(" e ela eh palindroma\n");
+  } else {
+    printf(" e ela nao eh palindroma\n");
+  }
+
+  printf("\nA frase modificada foi \"%s\" ", frase);
 
   return 0;
 }
@@ -61,4 +62,27 @@ void substituir(char *str, char antigo, char novo) {
       str[i] = novo;
     }
   }
+}
+
+int palindroma(char *str) {
+  int tam = strlen(str);
+  int metadeTam = tam / 2;
+  for (int i = 0; i < metadeTam; i += 1) {
+    if (str[i] != str[tam - 1 - i]) {
+      return 0;
+    }
+  }
+  return 1;
+}
+
+void removerEspacos(char *str) {
+  int tam = strlen(str);
+  int j = 0;
+  for (int i = 0; i < tam; ++i) {
+    if (str[i] != ' ') {
+      str[j] = str[i];
+      j += 1;
+    }
+  }
+  str[j] = '\0';
 }
