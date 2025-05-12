@@ -7,12 +7,13 @@
 struct Pessoa {
   char nome[TAM_NOME];
   int idade;
-  double peso;
+  double peso, altura;
 };
 
 void lerStr(char *str, int count);
 void lerPessoa(struct Pessoa *pessoa);
 void imprimirPessoa(struct Pessoa pessoa);
+double calcularIMC(struct Pessoa pessoa);
 
 int main() {
   struct Pessoa pessoa1, pessoa2;
@@ -44,9 +45,22 @@ void lerPessoa(struct Pessoa *pessoa) {
   scanf("%d", &pessoa->idade); // scanf("%d", &(*pessoa).idade);
   printf("Digite o peso: ");
   scanf("%lf", &pessoa->peso); // scanf("%lf", &(*pessoa).peso);
+  printf("Digite a altura: ");
+  scanf("%lf", &pessoa->altura); // scanf("%lf", &(*pessoa).altura);
   lerStr(tempStr, TAM_TEMP); // realiza a leitura do '\n' do scanf anterior
 }
 
 void imprimirPessoa(struct Pessoa pessoa) {
-  printf("(%s, %d anos, %.2f kg)\n", pessoa.nome, pessoa.idade, pessoa.peso);
+  double imc = calcularIMC(pessoa);
+  printf("(%s, %d anos, %.2f kg, %.2f m, IMC %.2f)\n",
+    pessoa.nome,
+    pessoa.idade,
+    pessoa.peso,
+    pessoa.altura,
+    imc
+  );
+}
+
+double calcularIMC(struct Pessoa pessoa) {
+  return pessoa.peso / (pessoa.altura * pessoa.altura);
 }
