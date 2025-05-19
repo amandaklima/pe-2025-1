@@ -18,7 +18,7 @@ double calcularIMC(struct Pessoa pessoa);
 
 // exercícios: implemente as seguintes funções e utilize-as no main
 double calcularMediaAltura(struct Pessoa vp[], int tam);
-double encontrarPessoaMaisPesada(struct Pessoa vp[], int tam);
+int encontrarPessoaMaisPesada(struct Pessoa vp[], int tam);
 double calcularMediaIdadeIMCnormal(struct Pessoa vp[], int tam);
 
 int main() {
