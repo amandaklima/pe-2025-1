@@ -35,6 +35,13 @@ int main() {
     imprimirPessoa(pessoas[i]);
   }
 
+  printf("\nA media de altura destas pessoas eh %.2f\n", calcularMediaAltura(pessoas, QTD_PESSOAS));
+
+  int posMaisPesada = encontrarPessoaMaisPesada(pessoas, QTD_PESSOAS);
+  printf("\nA pessoa mais pesada eh: ");
+  imprimirPessoa(pessoas[posMaisPesada]);
+
+  printf("\nA media de idade das pessoas com IMC normal eh: %.2f\n", calcularMediaIdadeIMCnormal(pessoas, QTD_PESSOAS));
   return 0;
 }
 
@@ -72,4 +79,41 @@ void imprimirPessoa(struct Pessoa pessoa) {
 
 double calcularIMC(struct Pessoa pessoa) {
   return pessoa.peso / (pessoa.altura * pessoa.altura);
+}
+
+double calcularMediaAltura(struct Pessoa vp[], int tam) {
+  double somaAltura = 0.0, mediaAltura = 0.0;
+  for (int i = 0; i < tam; i += 1) {
+    somaAltura += vp[i].altura;
+  }
+  if (tam != 0) {
+    mediaAltura = somaAltura / tam;
+  }
+  return mediaAltura;
+}
+
+int encontrarPessoaMaisPesada(struct Pessoa vp[], int tam) {
+  int posMaisPesada = 0;
+  for (int i = 1; i < tam; i += 1) {
+    if (vp[i].peso > vp[posMaisPesada].peso) {
+      posMaisPesada = i;
+    }
+  }
+  return posMaisPesada;
+}
+
+double calcularMediaIdadeIMCnormal(struct Pessoa vp[], int tam) {
+  int somaIdades = 0, qtdIdades = 0;
+  double mediaIdades = 0.0, imc;
+  for (int i = 0; i < tam; i += 1) {
+    imc = calcularIMC(vp[i]);
+    if (imc >= 18.5 && imc < 25.0) {
+      somaIdades += vp[i].idade;
+      qtdIdades += 1;
+    }
+  }
+  if (qtdIdades != 0) {
+    mediaIdades = (double) somaIdades / (double) qtdIdades;
+  }
+  return mediaIdades;
 }
