@@ -21,14 +21,20 @@ double calcularMediaAltura(struct Pessoa vp[], int tam);
 int encontrarPessoaMaisPesada(struct Pessoa vp[], int tam);
 double calcularMediaIdadeIMCnormal(struct Pessoa vp[], int tam);
 
+// campo nome
 int buscarPeloNome(struct Pessoa v[], int tam, char *x);
-void insercaoDiretaCampoNome(struct Pessoa v[], int n);
 int buscaBinariaPorNome(struct Pessoa v[], int tam, char *x);
+void insercaoDiretaCampoNome(struct Pessoa v[], int n);
+
+// campo idade
+int buscarPelaIdade(struct Pessoa v[], int tam, int x);
+int buscaBinariaPorIdade(struct Pessoa v[], int tam, int x);
+void insercaoDiretaCampoIdade(struct Pessoa v[], int n);
 
 int main() {
   struct Pessoa pessoas[QTD_PESSOAS];
   char nome[TAM_NOME];
-  int pos;
+  int pos, idade;
 
   for (int i = 0; i < QTD_PESSOAS; i += 1)
   {
@@ -45,7 +51,7 @@ int main() {
 
   insercaoDiretaCampoNome(pessoas, QTD_PESSOAS);
 
-  printf("\n\n----- Impressao apos ordenacao\n");
+  printf("\n\n----- Impressao apos ordenacao por nome\n");
   for (int i = 0; i < QTD_PESSOAS; i += 1)
   {
     printf("----- Impressão dados da Pessoa %d: ", i + 1);
@@ -64,10 +70,28 @@ int main() {
   lerStr(nome, TAM_NOME);
   pos = buscaBinariaPorNome(pessoas, QTD_PESSOAS, nome);
   if (pos != -1) {
-    printf("Pessoa encontrada: ");
+    printf("Pessoa encontrada na posicao %d: ", pos + 1);
     imprimirPessoa(pessoas[pos]);
   } else {
     printf("Nao tem nenhuma pessoa com esse nome!\n");
+  }
+
+  insercaoDiretaCampoIdade(pessoas, QTD_PESSOAS);
+
+  printf("\n\n----- Impressao apos ordenacao por idade\n");
+  for (int i = 0; i < QTD_PESSOAS; i += 1) {
+    printf("----- Impressão dados da Pessoa %d: ", i + 1);
+    imprimirPessoa(pessoas[i]);
+  }
+
+  printf("Digite um nome a ser encontrado: ");
+  scanf("%d", &idade);
+  pos = buscaBinariaPorIdade(pessoas, QTD_PESSOAS, idade);
+  if (pos != -1) {
+    printf("Pessoa encontrada na posicao %d: ", pos + 1);
+    imprimirPessoa(pessoas[pos]);
+  } else {
+    printf("Nao tem nenhuma pessoa com essa idade!\n");
   }
 
   return 0;
@@ -146,10 +170,28 @@ double calcularMediaIdadeIMCnormal(struct Pessoa vp[], int tam) {
   return mediaIdades;
 }
 
+// -------- INÍCIO CAMPO NOME --------
+
 int buscarPeloNome(struct Pessoa v[], int tam, char *x) {
   for (int i = 0; i < tam; i += 1) {
     if (strcmp(v[i].nome, x) == 0) {
       return i;
+    }
+  }
+  return -1;
+}
+
+// APENAS utilizar se o vetor estiver ORDENADO
+int buscaBinariaPorNome(struct Pessoa v[], int tam, char *x) {
+  int inicio = 0, fim = tam - 1, meio;
+  while (inicio <= fim) {
+    meio = (inicio + fim) / 2;
+    if (strcmp(v[meio].nome, x) > 0) {
+      fim = meio - 1;
+    } else if (strcmp(v[meio].nome, x) < 0) {
+      inicio = meio + 1;
+    } else {
+      return meio;
     }
   }
   return -1;
@@ -169,14 +211,28 @@ void insercaoDiretaCampoNome(struct Pessoa v[], int n) {
   }
 }
 
+// -------- FIM CAMPO IDADE --------
+
+
+// -------- INÍCIO CAMPO IDADE --------
+
+int buscarPelaIdade(struct Pessoa v[], int tam, int x) {
+  for (int i = 0; i < tam; i += 1) {
+    if (v[i].idade == x) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 // APENAS utilizar se o vetor estiver ORDENADO
-int buscaBinariaPorNome(struct Pessoa v[], int tam, char *x) {
+int buscaBinariaPorIdade(struct Pessoa v[], int tam, int x) {
   int inicio = 0, fim = tam - 1, meio;
   while (inicio <= fim) {
     meio = (inicio + fim) / 2;
-    if (strcmp(v[meio].nome, x) > 0) {
+    if (v[meio].idade > x) {
       fim = meio - 1;
-    } else if (strcmp(v[meio].nome, x) < 0) {
+    } else if (v[meio].idade < x) {
       inicio = meio + 1;
     } else {
       return meio;
@@ -184,3 +240,19 @@ int buscaBinariaPorNome(struct Pessoa v[], int tam, char *x) {
   }
   return -1;
 }
+
+void insercaoDiretaCampoIdade(struct Pessoa v[], int n) {
+  int i, j;
+  struct Pessoa chave;
+  for (i = 1; i <= n - 1; i++) {
+    chave = v[i];
+    j = i - 1;
+    while (j >= 0 && v[j].idade > chave.idade) {
+      v[j+1] = v[j];
+      j = j - 1;
+    }
+    v[j+1] = chave;
+  }
+}
+
+// -------- FIM CAMPO IDADE --------
