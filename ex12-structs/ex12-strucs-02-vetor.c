@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define QTD_PESSOAS 5
+#define QTD_PESSOAS 10
 #define TAM_NOME 30
 #define TAM_TEMP 256
 
@@ -21,9 +21,17 @@ double calcularMediaAltura(struct Pessoa vp[], int tam);
 int encontrarPessoaMaisPesada(struct Pessoa vp[], int tam);
 double calcularMediaIdadeIMCnormal(struct Pessoa vp[], int tam);
 
+int buscarPeloNome(struct Pessoa v[], int tam, char *x);
+void insercaoDiretaCampoNome(struct Pessoa v[], int n);
+int buscaBinariaPorNome(struct Pessoa v[], int tam, char *x);
+
 int main() {
   struct Pessoa pessoas[QTD_PESSOAS];
-  for (int i = 0; i < QTD_PESSOAS; i += 1) {
+  char nome[TAM_NOME];
+  int pos;
+
+  for (int i = 0; i < QTD_PESSOAS; i += 1)
+  {
     printf("----- Digitação dos dados da Pessoa %d -----\n", i + 1);
     lerPessoa(&pessoas[i]);
   }
@@ -35,6 +43,15 @@ int main() {
     imprimirPessoa(pessoas[i]);
   }
 
+  insercaoDiretaCampoNome(pessoas, QTD_PESSOAS);
+
+  printf("\n\n----- Impressao apos ordenacao\n");
+  for (int i = 0; i < QTD_PESSOAS; i += 1)
+  {
+    printf("----- Impressão dados da Pessoa %d: ", i + 1);
+    imprimirPessoa(pessoas[i]);
+  }
+
   printf("\nA media de altura destas pessoas eh %.2f\n", calcularMediaAltura(pessoas, QTD_PESSOAS));
 
   int posMaisPesada = encontrarPessoaMaisPesada(pessoas, QTD_PESSOAS);
@@ -42,6 +59,17 @@ int main() {
   imprimirPessoa(pessoas[posMaisPesada]);
 
   printf("\nA media de idade das pessoas com IMC normal eh: %.2f\n", calcularMediaIdadeIMCnormal(pessoas, QTD_PESSOAS));
+
+  printf("Digite um nome a ser encontrado: ");
+  lerStr(nome, TAM_NOME);
+  pos = buscaBinariaPorNome(pessoas, QTD_PESSOAS, nome);
+  if (pos != -1) {
+    printf("Pessoa encontrada: ");
+    imprimirPessoa(pessoas[pos]);
+  } else {
+    printf("Nao tem nenhuma pessoa com esse nome!\n");
+  }
+
   return 0;
 }
 
@@ -116,4 +144,43 @@ double calcularMediaIdadeIMCnormal(struct Pessoa vp[], int tam) {
     mediaIdades = (double) somaIdades / (double) qtdIdades;
   }
   return mediaIdades;
+}
+
+int buscarPeloNome(struct Pessoa v[], int tam, char *x) {
+  for (int i = 0; i < tam; i += 1) {
+    if (strcmp(v[i].nome, x) == 0) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+void insercaoDiretaCampoNome(struct Pessoa v[], int n) {
+  int i, j;
+  struct Pessoa chave;
+  for (i = 1; i <= n - 1; i++) {
+    chave = v[i];
+    j = i - 1;
+    while (j >= 0 && strcmp(v[j].nome, chave.nome) > 0) {
+      v[j+1] = v[j];
+      j = j - 1;
+    }
+    v[j+1] = chave;
+  }
+}
+
+// APENAS utilizar se o vetor estiver ORDENADO
+int buscaBinariaPorNome(struct Pessoa v[], int tam, char *x) {
+  int inicio = 0, fim = tam - 1, meio;
+  while (inicio <= fim) {
+    meio = (inicio + fim) / 2;
+    if (strcmp(v[meio].nome, x) > 0) {
+      fim = meio - 1;
+    } else if (strcmp(v[meio].nome, x) < 0) {
+      inicio = meio + 1;
+    } else {
+      return meio;
+    }
+  }
+  return -1;
 }
