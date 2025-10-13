@@ -1,0 +1,7 @@
+Olá Turma!
+num1 = 10
+num2 = 50
+-Olá Turma!
+-num1 = 10
+-num2 = 50
+Mais uma linha digitada
